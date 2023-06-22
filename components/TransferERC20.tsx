@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { usePrepareContractWrite, useContractWrite } from 'wagmi'
-import { parseUnits } from 'ethers/lib/utils'
+import { parseUnits } from 'viem'
 import erc20ABI from '../abis/IERC20.json'
 import { useDebounce } from './useDebounce'
  
