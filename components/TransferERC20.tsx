@@ -1,5 +1,9 @@
 import * as React from 'react'
-import { usePrepareContractWrite, useContractWrite } from 'wagmi'
+import {
+  usePrepareContractWrite,
+  useContractWrite,
+  useContractRead
+} from 'wagmi'
 import { parseUnits } from 'viem'
 import erc20ABI from '../abis/IERC20.json'
 import { useDebounce } from './useDebounce'
@@ -14,13 +18,22 @@ export function TransferERC20() {
   const debouncedRecipient = useDebounce(recipient, 500)
   const debouncedAmount = useDebounce(amount, 500)
   
+  const { data } = useContractRead({
+    address: '0xBE53A7e28be039259a2f19eA0A766756d2c5A0EE',
+    abi: erc20ABI,
+    functionName: 'decimals',
+  })
+  const decimals = data as number
+
+  // @todo continue in step 7: https://wagmi.sh/examples/contract-write-dynamic#step-5-add-a-debounce-to-the-input-value
+
   // Give back a "prepared config" to be sent through to, including gas estimate and other information
   // needed for the transaction
   const { config, error } = usePrepareContractWrite({
     address: '0xBE53A7e28be039259a2f19eA0A766756d2c5A0EE',
     abi: erc20ABI,
     functionName: 'transfer',
-    args: [debouncedRecipient, parseUnits(debouncedAmount || '0', 18)], // || '0' required to handle potentially undefined `debouncedAmount` value
+    args: [debouncedRecipient, parseUnits(debouncedAmount || '0', decimals)], // || '0' required to handle potentially undefined `debouncedAmount` value
     enabled: Boolean(debouncedRecipient && debouncedAmount), // Run this query automatically only if both, recipient and amount are defined
   })
 
