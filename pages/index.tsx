@@ -16,13 +16,7 @@ const Home: NextPage = () => {
         <link href="/favicon.ico" rel="icon" />
       </Head>
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          padding: 12,
-        }}
-      >
+      <div className="flex justify-end p-4">
         <ConnectButton />
       </div>
       <main className={styles.main}>
