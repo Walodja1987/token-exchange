@@ -91,7 +91,9 @@ export function TransferERC20() {
   // Render
   return (
     <>  
-        <div className='w-full p-5 rounded-lg border'>
+        {/* Wrapping div */}
+        <div className='w-full max-w-md p-5 rounded-lg border'>
+          {/* Header row */}
           <div className='mb-3 flex items-center gap-5'>
             <div>
               <svg 
@@ -114,7 +116,9 @@ export function TransferERC20() {
               </svg>
             </div>
           </div>
+          {/* Horizontal line separator */}
           <hr className='mb-6'/>
+          {/* Form */}
           <form
             onSubmit={(e) => {
               e.preventDefault() // prevent the default behavior of form submissions to refresh the page to preserve the user inputs
