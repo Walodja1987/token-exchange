@@ -5,17 +5,37 @@ import type { AppProps } from 'next/app';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { arbitrum, goerli, mainnet, optimism, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import { alchemyProvider } from '@wagmi/core/providers/alchemy'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    mainnet,
     polygon,
-    optimism,
-    arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli, polygonMumbai] : []),
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [polygonMumbai] : []),
   ],
-  [publicProvider()]
+  [
+    // jsonRpcProvider({
+    //   rpc: (chain) => {
+    //     console.log('chain.id',chain.id)
+    //     // console.log('process.env[`NEXT_PUBLIC_RPC_URL_${chain.id}`]', process.env[`NEXT_PUBLIC_RPC_URL_${chain.id}`])
+    //     // console.log('process.env[`NEXT_PUBLIC_RPC_URL_${chain.id}`]', process.env[`NEXT_PUBLIC_RPC_URL_${chain.id}`])
+    //     console.log('NEXT_PUBLIC_RPC_URL_137', process.env[`NEXT_PUBLIC_RPC_URL_137`])
+    //     console.log(`NEXT_PUBLIC_RPC_URL_${chain.id}`, process.env[`NEXT_PUBLIC_RPC_URL_${chain.id}`]);
+
+    //     return {
+    //       http: process.env[`NEXT_PUBLIC_RPC_URL_${chain.id}`] || '',
+    //       // http: 'https://polygon-bor.publicnode.com'
+    //     }
+    //   },
+    // }),
+    // alchemyProvider({ apiKey: '...' }),
+    publicProvider()
+  ]
 );
+// console.log('chains', chains)
+// console.log('process.env[`NEXT_PUBLIC_RPC_URL_${chain.id}`]',process.env[`NEXT_PUBLIC_RPC_URL_${chains[0].id}`])
+
+// console.log('chains _app.tsx', chains)
 
 const { connectors } = getDefaultWallets({
   appName: 'Token Exchange',
